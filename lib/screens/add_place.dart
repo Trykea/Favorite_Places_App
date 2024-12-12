@@ -38,6 +38,7 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
         child: Column(
           children: [
             TextField(
+              autofocus: true,
               decoration: InputDecoration(
                 label: Text('Title'),
               ),
