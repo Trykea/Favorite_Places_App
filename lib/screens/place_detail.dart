@@ -1,15 +1,16 @@
 import 'package:favorite_places_app/models/place.dart';
+import 'package:favorite_places_app/screens/map.dart';
 import 'package:flutter/material.dart';
 
 class PlaceDetailScreen extends StatelessWidget {
   const PlaceDetailScreen({super.key, required this.place});
 
   final Place place;
+
   String get locationImage {
     final lat = place.location.latitude;
     final lng = place.location.longitude;
     return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng=&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyAG5yqjKUiwBWL2MDcQKHavwsUZEk7yaek';
-
   }
 
   @override
@@ -32,14 +33,26 @@ class PlaceDetailScreen extends StatelessWidget {
               right: 0,
               child: Column(
                 children: [
-                  CircleAvatar(radius: 70, backgroundImage: NetworkImage(locationImage),),
+                  GestureDetector(
+                    child: CircleAvatar(
+                      radius: 70,
+                      backgroundImage: NetworkImage(locationImage),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MapScreen(location: place.location, isSelecting: false,),
+                      ));
+                    },
+                  ),
                   Container(
                     alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 16),
-                    decoration: BoxDecoration(gradient: LinearGradient(colors: [
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
                       Colors.transparent,
                       Colors.black54,
-                    ],begin: Alignment.topCenter, end: Alignment.bottomLeft)),
+                    ], begin: Alignment.topCenter, end: Alignment.bottomLeft)),
                     child: Text(
                       place.location.address,
                       textAlign: TextAlign.center,
